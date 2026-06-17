@@ -43,7 +43,7 @@ function savePatterns() {
 }
 
 let patterns = loadPatterns();
-
+let totalElapsed = 0;
 let running = false;
 let paused = false;
 
@@ -140,7 +140,8 @@ document.body.classList.remove("running");
     running = false;
     paused = false;
 
-    timerDisplay.textContent = "Ready";
+totalElapsed = 0;
+timerDisplay.textContent = "0";
 
     statusDisplay.innerHTML =
         "Cycle 0<br>Step 0";
@@ -152,23 +153,30 @@ document.body.classList.remove("running");
 
 async function countdown(seconds) {
 
-    let remaining = seconds;
+    let start = Date.now();
 
-    while (remaining > 0 && running) {
+    while (running && Date.now() - start < seconds * 1000) {
 
         while (paused)
             await sleep(.1);
 
-        timerDisplay.textContent =
-            remaining.toFixed(1);
-
         await sleep(.1);
-
-        remaining -= .1;
 
     }
 
 }
+setInterval(() => {
+
+    if (running && !paused) {
+
+        totalElapsed += 1;
+
+        timerDisplay.textContent =
+            totalElapsed;
+
+    }
+
+}, 1000);
 
 startButton.onclick = async () => {
 
@@ -178,7 +186,7 @@ document.body.classList.add("running");
         return;
 
     running = true;
-
+totalElapsed = 0;
     const sequence =
         sequenceInput.value
             .trim()
@@ -207,13 +215,11 @@ document.body.classList.add("running");
                 `Cycle ${cycle}<br>
                  Step ${i / 2 + 1}`;
 
-            circle.style.opacity = "1";
-            circle.style.transform = "scale(1)";
+            circle.classList.add("on");
 
             await countdown(onTime);
 
-            circle.style.opacity = "0";
-            circle.style.transform = "scale(.7)";
+circle.classList.remove("on");
 
             await countdown(offTime);
 
