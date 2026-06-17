@@ -208,5 +208,12 @@ document.body.classList.remove("running");
 refreshPatternList();
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+    window.addEventListener("load", async () => {
+        try {
+            const reg = await navigator.serviceWorker.register("./service-worker.js");
+            console.log("SW registered:", reg);
+        } catch (err) {
+            console.log("SW failed:", err);
+        }
+    });
 }
