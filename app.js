@@ -15,8 +15,34 @@ const startButton = document.getElementById("startButton");
 const pauseButton = document.getElementById("pauseButton");
 const stopButton = document.getElementById("stopButton");
 
-let patterns =
-    JSON.parse(localStorage.getItem("patterns")) || [];
+function loadPatterns() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("patterns")
+        ) || [];
+
+    }
+
+    catch {
+
+        return [];
+
+    }
+
+}
+
+function savePatterns() {
+
+    localStorage.setItem(
+        "patterns",
+        JSON.stringify(patterns)
+    );
+
+}
+
+let patterns = loadPatterns();
 
 let running = false;
 let paused = false;
@@ -78,9 +104,7 @@ saveButton.onclick = () => {
     else
         patterns.push(pattern);
 
-    localStorage.setItem(
-        "patterns",
-        JSON.stringify(patterns)
+   savePatterns();
     );
 
     refreshPatternList();
@@ -93,9 +117,7 @@ deleteButton.onclick = () => {
         p => p.name !== patternName.value
     );
 
-    localStorage.setItem(
-        "patterns",
-        JSON.stringify(patterns)
+  savePatterns();
     );
 
     refreshPatternList();
