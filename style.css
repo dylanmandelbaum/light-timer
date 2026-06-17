@@ -55,9 +55,7 @@ button {
     opacity: 0;
     transform: scale(.7);
 
-    transition:
-        opacity .5s linear,
-        transform .5s ease;
+transition: opacity 400ms ease, transform 400ms ease;
 }
 
 #timerDisplay {
