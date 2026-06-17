@@ -113,6 +113,8 @@ pauseButton.onclick = () => {
 
 stopButton.onclick = () => {
 
+document.body.classList.remove("running");
+    
     running = false;
     paused = false;
 
@@ -148,6 +150,8 @@ async function countdown(seconds) {
 
 startButton.onclick = async () => {
 
+document.body.classList.add("running");
+    
     if (running)
         return;
 
@@ -198,7 +202,7 @@ startButton.onclick = async () => {
     }
 
     running = false;
-
+document.body.classList.remove("running");
 };
 
 refreshPatternList();
