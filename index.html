@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <title>Light Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="controls">
+
+    <select id="patternSelect">
+        <option value="">Select Pattern</option>
+    </select>
+
+    <input
+        id="patternName"
+        type="text"
+        placeholder="Pattern name">
+
+    <input
+        id="sequence"
+        type="text"
+        placeholder="5 3 5 3 5 10">
+
+    <input
+        id="repeatCount"
+        type="number"
+        value="-1"
+        placeholder="-1 = infinite">
+
+    <button id="saveButton">Save Pattern</button>
+    <button id="deleteButton">Delete Pattern</button>
+
+    <button id="startButton">Start</button>
+    <button id="pauseButton">Pause</button>
+    <button id="stopButton">Stop</button>
+
+</div>
+
+<div id="display">
+
+    <div id="circle">
+
+        <div id="timerDisplay">
+            Ready
+        </div>
+
+        <div id="statusDisplay">
+            Cycle 0<br>
+            Step 0
+        </div>
+
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
