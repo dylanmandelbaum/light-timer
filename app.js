@@ -105,7 +105,7 @@ saveButton.onclick = () => {
         patterns.push(pattern);
 
    savePatterns();
-    );
+    
 
     refreshPatternList();
 
@@ -118,7 +118,7 @@ deleteButton.onclick = () => {
     );
 
   savePatterns();
-    );
+    
 
     refreshPatternList();
 
