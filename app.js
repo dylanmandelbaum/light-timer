@@ -117,7 +117,23 @@ startButton.onclick = async () => {
 
     const profileKeys =
         pattern.profiles;
+const patternTotalTime =
+    profileKeys.reduce(
 
+        (sum, key) =>
+
+            sum +
+
+            PROFILES[key]
+                .sequence
+                .reduce((a,b)=>a+b,0),
+
+        0
+
+    );
+
+let patternRemaining =
+    patternTotalTime;
     const profileNames =
         profileKeys.map(
             key => PROFILES[key].name
@@ -153,7 +169,10 @@ startButton.onclick = async () => {
                     totalTime - elapsed;
 
                 elapsed++;
+patternRemaining--;
 
+patternTimerDisplay.textContent =
+    patternRemaining;
                 while (paused)
                     await sleep(.1);
 
@@ -169,7 +188,10 @@ startButton.onclick = async () => {
                     totalTime - elapsed;
 
                 elapsed++;
+patternRemaining--;
 
+patternTimerDisplay.textContent =
+    patternRemaining;
                 while (paused)
                     await sleep(.1);
 
