@@ -214,21 +214,30 @@ patternTimerDisplay.textContent =
 
 };
 
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator && !DEV_MODE) {
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", async () => {
 
-        navigator.serviceWorker.register(
-            "./service-worker.js"
-        );
+        try {
+
+            const reg = await navigator.serviceWorker.register(
+                "./service-worker.js"
+            );
+
+            console.log("SW registered:", reg);
+
+            // force check for updates immediately
+            reg.update();
+
+        } catch (err) {
+
+            console.log("SW failed:", err);
+
+        }
 
     });
 
-}
-if ("serviceWorker" in navigator) {
+} else {
 
-    navigator.serviceWorker.getRegistrations().then(regs => {
-        regs.forEach(reg => reg.update());
-    });
-
+    console.log("DEV MODE: service worker disabled");
 }
