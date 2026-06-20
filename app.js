@@ -94,6 +94,7 @@ async function countdown(seconds) {
    MAIN RUN
 -------------------------- */
 startButton.onclick = async () => {
+console.log("START CLICKED");
     if (running) return;
 
     running = true;
