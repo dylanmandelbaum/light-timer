@@ -10,7 +10,6 @@ const stopButton = document.getElementById("stopButton");
 const timerDisplay = document.getElementById("timerDisplay");
 const patternTimerDisplay = document.getElementById("patternTimerDisplay");
 const profileBar = document.getElementById("profileBar");
-
 const circle = document.getElementById("circle");
 
 let running = false;
@@ -20,60 +19,59 @@ function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
 
-/* -------------------------
-   BUILD DROPDOWN
--------------------------- */
-Object.entries(PATTERNS).forEach(([key, pattern]) => {
+/* ---------------- SAFE INIT ---------------- */
+
+if (typeof PATTERNS === "undefined" || typeof PROFILES === "undefined") {
+    console.error("Missing PATTERNS or PROFILES");
+}
+
+/* ---------------- DROPDOWN ---------------- */
+
+Object.entries(PATTERNS || {}).forEach(([key, pattern]) => {
     const option = document.createElement("option");
     option.value = key;
     option.textContent = pattern.name;
     patternSelect.appendChild(option);
 });
 
-/* -------------------------
-   PAUSE / STOP
--------------------------- */
+/* ---------------- CONTROLS ---------------- */
+
 pauseButton.onclick = () => {
     paused = !paused;
-    pauseButton.textContent = paused ? "▶" : "❚❚";
 };
 
 stopButton.onclick = () => {
     running = false;
     paused = false;
 
-    runScreen.style.display = "none";
     homeScreen.style.display = "flex";
+    runScreen.style.display = "none";
 
     timerDisplay.textContent = "0";
     patternTimerDisplay.textContent = "0";
     profileBar.innerHTML = "";
 };
 
-/* -------------------------
-   DOTS (profiles)
--------------------------- */
+/* ---------------- DOTS ---------------- */
+
 function renderDots(count) {
     profileBar.innerHTML = "";
 
     for (let i = 0; i < count; i++) {
-        const dot = document.createElement("div");
-        dot.className = "dot";
-        profileBar.appendChild(dot);
+        const d = document.createElement("div");
+        d.className = "dot";
+        profileBar.appendChild(d);
     }
 }
 
-function setActiveDot(index) {
-    const dots = profileBar.children;
-
-    for (let i = 0; i < dots.length; i++) {
-        dots[i].classList.toggle("active", i === index);
-    }
+function setActiveDot(i) {
+    [...profileBar.children].forEach((d, idx) => {
+        d.classList.toggle("active", idx === i);
+    });
 }
 
-/* -------------------------
-   COUNTDOWN (seconds)
--------------------------- */
+/* ---------------- TIMER ---------------- */
+
 async function countdown(seconds) {
     for (let i = seconds; i > 0 && running; i--) {
         while (paused) await sleep(100);
@@ -82,14 +80,17 @@ async function countdown(seconds) {
     }
 }
 
-/* -------------------------
-   START
--------------------------- */
+/* ---------------- START ---------------- */
+
 startButton.onclick = async () => {
     if (running) return;
 
-    const pattern = PATTERNS[patternSelect.value];
+    const patternKey = patternSelect.value;
+    const pattern = PATTERNS?.[patternKey];
+
     if (!pattern) return;
+
+    const profiles = pattern.profiles || [];
 
     running = true;
     paused = false;
@@ -97,39 +98,31 @@ startButton.onclick = async () => {
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
 
-    const profileKeys = pattern.profiles;
+    renderDots(profiles.length);
 
-    renderDots(profileKeys.length);
+    let total = 0;
 
-    let totalTime = 0;
+    profiles.forEach(p => {
+        const seq = PROFILES?.[p]?.sequence || [];
+        total += seq.reduce((a, b) => a + b, 0);
+    });
 
-    for (const key of profileKeys) {
-        totalTime += PROFILES[key].sequence.reduce((a, b) => a + b, 0);
-    }
+    patternTimerDisplay.textContent = total;
 
-    let remainingPatternTime = totalTime;
+    for (let i = 0; i < profiles.length && running; i++) {
 
-    for (let p = 0; p < profileKeys.length && running; p++) {
+        setActiveDot(i);
 
-        setActiveDot(p);
+        const seq = PROFILES?.[profiles[i]]?.sequence || [];
 
-        const sequence = PROFILES[profileKeys[p]].sequence;
-        const profileTime = sequence.reduce((a, b) => a + b, 0);
-
-        for (let i = 0; i < sequence.length && running; i += 2) {
-
-            const onTime = sequence[i];
-            const offTime = sequence[i + 1] || 0;
+        for (let j = 0; j < seq.length && running; j += 2) {
 
             circle.classList.add("on");
-            await countdown(onTime);
+            await countdown(seq[j]);
 
             circle.classList.remove("on");
-            await countdown(offTime);
+            await countdown(seq[j + 1] || 0);
         }
-
-        remainingPatternTime -= profileTime;
-        patternTimerDisplay.textContent = remainingPatternTime;
     }
 
     running = false;
