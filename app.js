@@ -1,247 +1,188 @@
-const circle = document.getElementById("circle");
-
-const timerDisplay = document.getElementById("timerDisplay");
-const statusDisplay = document.getElementById("statusDisplay");
+const homeScreen = document.getElementById("homeScreen");
+const runScreen = document.getElementById("runScreen");
 
 const patternSelect = document.getElementById("patternSelect");
-const patternName = document.getElementById("patternName");
-const sequenceInput = document.getElementById("sequence");
-const repeatInput = document.getElementById("repeatCount");
-
-const saveButton = document.getElementById("saveButton");
-const deleteButton = document.getElementById("deleteButton");
 
 const startButton = document.getElementById("startButton");
 const pauseButton = document.getElementById("pauseButton");
 const stopButton = document.getElementById("stopButton");
 
-function loadPatterns() {
+const timerDisplay = document.getElementById("timerDisplay");
+const profileBar = document.getElementById("profileBar");
 
-    try {
+const circle = document.getElementById("circle");
 
-        return JSON.parse(
-            localStorage.getItem("patterns")
-        ) || [];
-
-    }
-
-    catch {
-
-        return [];
-
-    }
-
-}
-
-function savePatterns() {
-
-    localStorage.setItem(
-        "patterns",
-        JSON.stringify(patterns)
-    );
-
-}
-
-let patterns = loadPatterns();
-let totalElapsed = 0;
 let running = false;
 let paused = false;
 
 function sleep(seconds) {
+
     return new Promise(resolve =>
         setTimeout(resolve, seconds * 1000));
-}
-
-function refreshPatternList() {
-
-    patternSelect.innerHTML =
-        '<option value="">Select Pattern</option>';
-
-    patterns.forEach((pattern, index) => {
-
-        let option = document.createElement("option");
-
-        option.value = index;
-        option.textContent = pattern.name;
-
-        patternSelect.appendChild(option);
-
-    });
 
 }
 
-patternSelect.onchange = () => {
+Object.entries(PATTERNS).forEach(([key, pattern]) => {
 
-    if (patternSelect.value === "")
-        return;
+    const option = document.createElement("option");
 
-    const pattern = patterns[patternSelect.value];
+    option.value = key;
+    option.textContent = pattern.name;
 
-    patternName.value = pattern.name;
-    sequenceInput.value = pattern.sequence;
-    repeatInput.value = pattern.repeatCount;
+    patternSelect.appendChild(option);
 
-};
-
-saveButton.onclick = () => {
-
-    const pattern = {
-
-        name: patternName.value,
-
-        sequence: sequenceInput.value,
-
-        repeatCount: Number(repeatInput.value)
-
-    };
-
-    const existing = patterns.findIndex(
-        p => p.name === pattern.name
-    );
-
-    if (existing >= 0)
-        patterns[existing] = pattern;
-    else
-        patterns.push(pattern);
-
-   savePatterns();
-    
-
-    refreshPatternList();
-
-};
-
-deleteButton.onclick = () => {
-
-    patterns = patterns.filter(
-        p => p.name !== patternName.value
-    );
-
-  savePatterns();
-    
-
-    refreshPatternList();
-
-};
+});
 
 pauseButton.onclick = () => {
 
     paused = !paused;
 
     pauseButton.textContent =
-        paused ? "Resume" : "Pause";
+        paused ? "▶" : "❚❚";
 
 };
 
 stopButton.onclick = () => {
 
-document.body.classList.remove("running");
-    
     running = false;
     paused = false;
 
-totalElapsed = 0;
-timerDisplay.textContent = "0";
-
-    statusDisplay.innerHTML =
-        "Cycle 0<br>Step 0";
-
-    circle.style.opacity = "0";
-    circle.style.transform = "scale(.7)";
+    homeScreen.style.display = "flex";
+    runScreen.style.display = "none";
 
 };
 
 async function countdown(seconds) {
 
-    let start = Date.now();
+    for (let remaining = seconds; remaining > 0 && running; remaining--) {
 
-    while (running && Date.now() - start < seconds * 1000) {
+        timerDisplay.textContent = remaining;
 
         while (paused)
             await sleep(.1);
 
-        await sleep(.1);
+        await sleep(1);
 
     }
 
 }
-setInterval(() => {
 
-    if (running && !paused) {
+function updateProfileBar(profileNames, currentIndex) {
 
-        totalElapsed += 1;
+    profileBar.innerHTML = "";
 
-        timerDisplay.textContent =
-            totalElapsed;
+    profileNames.forEach((name, i) => {
 
-    }
+        const span = document.createElement("span");
 
-}, 1000);
+        span.textContent = name;
+
+        if (i === currentIndex)
+            span.classList.add("activeProfile");
+
+        profileBar.appendChild(span);
+
+        if (i < profileNames.length - 1)
+            profileBar.append("   ");
+
+    });
+
+}
 
 startButton.onclick = async () => {
 
-document.body.classList.add("running");
-    
     if (running)
         return;
 
     running = true;
-totalElapsed = 0;
-    const sequence =
-        sequenceInput.value
-            .trim()
-            .split(/\s+/)
-            .map(Number);
 
-    let repeatCount =
-        Number(repeatInput.value);
+    homeScreen.style.display = "none";
+    runScreen.style.display = "flex";
 
-    let cycle = 1;
+    const pattern =
+        PATTERNS[patternSelect.value];
 
-    while (
-        running &&
-        (repeatCount < 0 || cycle <= repeatCount)
-    ) {
+    const profileKeys =
+        pattern.profiles;
 
-        for (let i = 0; i < sequence.length; i += 2) {
+    const profileNames =
+        profileKeys.map(
+            key => PROFILES[key].name
+        );
 
-            if (!running)
-                break;
+    for (let p = 0; p < profileKeys.length && running; p++) {
+
+        updateProfileBar(profileNames, p);
+
+        const sequence =
+            PROFILES[
+                profileKeys[p]
+            ].sequence;
+
+        const totalTime =
+            sequence.reduce(
+                (a, b) => a + b,
+                0
+            );
+
+        let elapsed = 0;
+
+        for (let i = 0; i < sequence.length && running; i += 2) {
 
             const onTime = sequence[i];
             const offTime = sequence[i + 1] || 0;
 
-            statusDisplay.innerHTML =
-                `Cycle ${cycle}<br>
-                 Step ${i / 2 + 1}`;
-
             circle.classList.add("on");
 
-            await countdown(onTime);
+            for (let t = 0; t < onTime && running; t++) {
 
-circle.classList.remove("on");
+                timerDisplay.textContent =
+                    totalTime - elapsed;
 
-            await countdown(offTime);
+                elapsed++;
+
+                while (paused)
+                    await sleep(.1);
+
+                await sleep(1);
+
+            }
+
+            circle.classList.remove("on");
+
+            for (let t = 0; t < offTime && running; t++) {
+
+                timerDisplay.textContent =
+                    totalTime - elapsed;
+
+                elapsed++;
+
+                while (paused)
+                    await sleep(.1);
+
+                await sleep(1);
+
+            }
 
         }
-
-        cycle++;
 
     }
 
     running = false;
-document.body.classList.remove("running");
+
+    homeScreen.style.display = "flex";
+    runScreen.style.display = "none";
+
 };
 
-refreshPatternList();
-
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", async () => {
-        try {
-            const reg = await navigator.serviceWorker.register("./service-worker.js");
-            console.log("SW registered:", reg);
-        } catch (err) {
-            console.log("SW failed:", err);
-        }
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register(
+            "./service-worker.js"
+        );
+
     });
+
 }
