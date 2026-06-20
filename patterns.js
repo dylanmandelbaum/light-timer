@@ -1,25 +1,26 @@
-const PATTERNS = {
+const PROFILES = {
 
-    morning: {
+    relax: {
 
-        name: "Morning",
+        name: "Relax",
 
-        profiles: [
-            "relax",
-            "box",
-            "focus"
-        ]
+        sequence: [5,3,5,3,5,10]
 
     },
 
-    sleep: {
+    box: {
 
-        name: "Sleep",
+        name: "Box",
 
-        profiles: [
-            "box",
-            "relax"
-        ]
+        sequence: [4,4,4,4]
+
+    },
+
+    focus: {
+
+        name: "Focus",
+
+        sequence: [10,5,10,5]
 
     }
 
