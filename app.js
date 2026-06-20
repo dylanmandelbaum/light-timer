@@ -1,3 +1,4 @@
+const nextProfile = document.getElementById("nextProfile");
 const currentProfile = document.getElementById("currentProfile");
 const patternTimerDisplay = document.getElementById("patternTimerDisplay");
 const homeScreen = document.getElementById("homeScreen");
@@ -129,6 +130,12 @@ let patternRemaining =
 
     for (let p = 0; p < profileKeys.length && running; p++) {
 currentProfile.textContent = PROFILES[profileKeys[p]].name;
+     const next = profileKeys[p + 1];
+
+    nextProfile.textContent = next
+        ? "Next: " + PROFILES[next].name
+        : "Next: —";
+
         setDot(p);
 
         const sequence =
