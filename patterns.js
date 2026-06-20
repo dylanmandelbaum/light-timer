@@ -14,7 +14,7 @@ const PATTERNS = {
             "on off",
             "rest"
             "on off",
-            "rest"
+            "rest",
         ]
 
     },
