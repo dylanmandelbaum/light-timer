@@ -1,13 +1,37 @@
-const CACHE_NAME = "light-timer-v2";
+const CACHE_NAME = "light-timer-v1";
 
-self.addEventListener("install", (event) => {
-    self.skipWaiting();
+const urlsToCache = [
+
+    "./",
+    "./index.html",
+    "./style.css",
+    "./app.js",
+    "./profiles.js",
+    "./patterns.js",
+    "./manifest.json"
+
+];
+
+self.addEventListener("install", event => {
+
+    event.waitUntil(
+
+        caches.open(CACHE_NAME)
+            .then(cache =>
+                cache.addAll(urlsToCache))
+
+    );
+
 });
 
-self.addEventListener("activate", (event) => {
-    event.waitUntil(self.clients.claim());
-});
+self.addEventListener("fetch", event => {
 
-self.addEventListener("fetch", (event) => {
-    event.respondWith(fetch(event.request));
+    event.respondWith(
+
+        caches.match(event.request)
+            .then(response =>
+                response || fetch(event.request))
+
+    );
+
 });
