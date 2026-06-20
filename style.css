@@ -1,14 +1,13 @@
 body {
-
     margin: 0;
     background: black;
     color: white;
     font-family: Arial, sans-serif;
-
 }
 
-#homeScreen {
+/* ---------------- HOME SCREEN ---------------- */
 
+#homeScreen {
     height: 100vh;
 
     display: flex;
@@ -18,28 +17,24 @@ body {
     align-items: center;
 
     gap: 20px;
-
 }
 
 #homeScreen select {
-
     width: 250px;
     font-size: 1.2rem;
     padding: 15px;
-
 }
 
 #startButton {
-
     width: 250px;
     padding: 20px;
 
     font-size: 1.4rem;
-
 }
 
-#runScreen {
+/* ---------------- RUN SCREEN ---------------- */
 
+#runScreen {
     display: none;
 
     height: 100vh;
@@ -48,68 +43,69 @@ body {
 
     align-items: center;
     justify-content: center;
-
 }
+
+/* ---------------- TOTAL TIMER ---------------- */
+
+#patternTimerDisplay {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+/* ---------------- PROFILE DOT BAR ---------------- */
 
 #profileBar {
-
     display: flex;
-
-    gap: 30px;
-
-    margin-bottom: 40px;
-
-    font-size: 1.1rem;
-
-}
-
-.profileItem {
-
-    display: flex;
-    flex-direction: column;
-
+    justify-content: center;
     align-items: center;
 
-    min-width: 80px;
+    gap: 10px;
+    margin-bottom: 40px;
 
+    flex-wrap: wrap;
+    max-width: 90vw;
 }
 
-.profileDot {
+/* DOTS */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
 
-    margin-top: 8px;
+    background: rgba(255, 255, 255, 0.25);
 
-    font-size: 1.5rem;
-
-    visibility: hidden;
-
+    transition: transform 0.2s ease,
+                background 0.2s ease;
 }
 
-.profileDot.active {
-
-    visibility: visible;
-
+.dot.done {
+    background: white;
+    opacity: 0.6;
 }
+
+.dot.active {
+    background: white;
+    transform: scale(1.5);
+    opacity: 1;
+}
+
+/* ---------------- STEP TIMER ---------------- */
 
 #timerDisplay {
-
     font-size: 6rem;
-
     margin-bottom: 40px;
-
 }
 
+/* ---------------- CIRCLE AREA ---------------- */
+
 #circleWrap {
-
     position: relative;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 #outerCircle {
-
     width: 80vw;
     height: 80vw;
 
@@ -124,42 +120,34 @@ body {
     align-items: center;
 
     box-sizing: border-box;
-
 }
 
 #circle {
-
     width: 20px;
     height: 20px;
 
     background: white;
     border-radius: 50%;
-    overflow: hidden;
-    border-radius: 50%;
 
     transition: 1s ease;
-
 }
 
 #circle.on {
-
     width: 100%;
     height: 100%;
-
+    aspect-ratio: 1 / 1;
 }
 
-/* buttons now live OUTSIDE circle */
+/* ---------------- BUTTONS ---------------- */
 
 #pauseButton,
 #stopButton {
-
     width: 60px;
     height: 60px;
 
     border-radius: 50%;
 
     margin-top: 15px;
-
 }
 
 #pauseButton {
@@ -172,55 +160,4 @@ body {
     position: absolute;
     left: 20px;
     bottom: 20px;
-}
-
-#circle.on {
-
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1 / 1;
-
-}
-
-
-
-#patternTimerDisplay {
-
-    font-size: 4rem;
-
-    margin-bottom: 20px;
-
-}
-
-
-#profileDots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 8px;
-    margin-bottom: 10px;
-
-    flex-wrap: wrap;
-    max-width: 90vw;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.25);
-
-    transition: background 0.2s ease,
-                transform 0.2s ease;
-}
-
-.dot.done {
-    background: white;
-}
-
-.dot.active {
-    background: white;
-    transform: scale(1.5);
 }
