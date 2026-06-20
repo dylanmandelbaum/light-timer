@@ -110,7 +110,7 @@ if (!pattern) {
     return;
 }
     const profileKeys = pattern.profiles;
-
+console.log("profiles:", profileKeys);
     const profileNames = profileKeys.map(
         key => PROFILES[key].name
     );
