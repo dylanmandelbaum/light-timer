@@ -137,9 +137,7 @@ body {
     overflow: hidden;
     border-radius: 50%;
 
-
- transition: var(--anim, 1s) ease;
-
+    transition: .5s ease;
 
 }
 
