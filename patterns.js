@@ -19,15 +19,6 @@ const PATTERNS = {
 
     },
 
-    sleep: {
 
-        name: "Sleep",
-
-        profiles: [
-            "box",
-            "relax"
-        ]
-
-    }
 
 };
