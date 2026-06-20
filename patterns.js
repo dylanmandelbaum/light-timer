@@ -1,13 +1,20 @@
 const PATTERNS = {
 
-    morning: {
+    Monday: {
 
-        name: "Morning",
+        name: "Monday",
 
         profiles: [
-            "relax",
-            "box",
-            "focus"
+            "on off",
+            "rest",
+            "on off",
+            "rest",
+            "on off",
+            "rest"
+            "on off",
+            "rest"
+            "on off",
+            "rest"
         ]
 
     },
