@@ -1,16 +1,4 @@
-const debug = document.createElement("div");
-debug.style.position = "fixed";
-debug.style.bottom = "0";
-debug.style.left = "0";
-debug.style.background = "red";
-debug.style.color = "white";
-debug.style.padding = "10px";
-debug.style.zIndex = "9999";
-document.body.appendChild(debug);
 
-function log(msg) {
-    debug.textContent = msg;
-}
 
 const profileDots = document.getElementById("profileBar");
 
