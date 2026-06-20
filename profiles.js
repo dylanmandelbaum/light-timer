@@ -1,18 +1,18 @@
 const PROFILES = {
 
-    relax: {
+    on off: {
 
-        name: "Relax",
+        name: "on off",
 
-        sequence: [5,3,5,3,5,10]
+        sequence: [1,1,1,1]
 
     },
 
-    box: {
+    rest: {
 
-        name: "Box",
+        name: "Rest",
 
-        sequence: [4,4,4,4]
+        sequence: [3]
 
     },
 
