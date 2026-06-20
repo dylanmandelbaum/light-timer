@@ -1,4 +1,3 @@
-window.addEventListener("DOMContentLoaded", () => {
 
 const homeScreen = document.getElementById("homeScreen");
 const runScreen = document.getElementById("runScreen");
@@ -6,8 +5,8 @@ const runScreen = document.getElementById("runScreen");
 const patternSelect = document.getElementById("patternSelect");
 
 const startButton = document.getElementById("startButton");
-const stopButton = document.getElementById("stopButton");
 const pauseButton = document.getElementById("pauseButton");
+const stopButton = document.getElementById("stopButton");
 
 const timerDisplay = document.getElementById("timerDisplay");
 const profileBar = document.getElementById("profileBar");
@@ -17,80 +16,225 @@ const circle = document.getElementById("circle");
 let running = false;
 let paused = false;
 
-function sleep(ms) {
-    return new Promise(r => setTimeout(r, ms));
+function sleep(seconds) {
+
+    return new Promise(resolve =>
+        setTimeout(resolve, seconds * 1000));
+
 }
 
-// fill dropdown
-Object.entries(PATTERNS).forEach(([key, p]) => {
-    const opt = document.createElement("option");
-    opt.value = key;
-    opt.textContent = p.name;
-    patternSelect.appendChild(opt);
+Object.entries(PATTERNS).forEach(([key, pattern]) => {
+
+    const option = document.createElement("option");
+
+    option.value = key;
+    option.textContent = pattern.name;
+
+    patternSelect.appendChild(option);
+
 });
-patternSelect.value = Object.keys(PATTERNS)[0];
-// dots
-function renderDots(n) {
-    profileBar.innerHTML = "";
-    for (let i = 0; i < n; i++) {
-        const d = document.createElement("div");
-        d.className = "dot";
-        profileBar.appendChild(d);
-    }
-}
-
-function setDot(i) {
-    [...profileBar.children].forEach((d, idx) => {
-        d.classList.toggle("active", idx === i);
-    });
-}
 
 pauseButton.onclick = () => {
+
     paused = !paused;
+
+    pauseButton.textContent =
+        paused ? "▶" : "❚❚";
+
 };
 
 stopButton.onclick = () => {
+
     running = false;
+    paused = false;
+
     homeScreen.style.display = "flex";
     runScreen.style.display = "none";
+
 };
 
-// main start
+async function countdown(seconds) {
+
+    for (let remaining = seconds; remaining > 0 && running; remaining--) {
+
+        timerDisplay.textContent = remaining;
+
+        while (paused)
+            await sleep(.1);
+
+        await sleep(1);
+
+    }
+
+}
+
+function updateProfileBar(profileNames, currentIndex) {
+
+    profileBar.innerHTML = "";
+
+    profileNames.forEach((name, i) => {
+
+        const container =
+            document.createElement("div");
+
+        container.className = "profileItem";
+
+        const label =
+            document.createElement("div");
+
+        label.textContent = name;
+
+        const dot =
+            document.createElement("div");
+
+        dot.className = "profileDot";
+
+        dot.textContent = "•";
+
+        if (i === currentIndex)
+            dot.classList.add("active");
+
+        container.appendChild(label);
+        container.appendChild(dot);
+
+        profileBar.appendChild(container);
+
+    });
+
+}
+
 startButton.onclick = async () => {
 
-    if (running) return;
+    if (running)
+        return;
+
     running = true;
 
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
 
-const patternKey = patternSelect.value;
-const pattern = PATTERNS[patternKey];
+    const pattern =
+        PATTERNS[patternSelect.value];
 
-if (!pattern) return;
+    const profileKeys =
+        pattern.profiles;
+const patternTotalTime =
+    profileKeys.reduce(
 
-const profiles = pattern.profiles;
+        (sum, key) =>
 
-    renderDots(profiles.length);
+            sum +
 
-    for (let i = 0; i < profiles.length && running; i++) {
+            PROFILES[key]
+                .sequence
+                .reduce((a,b)=>a+b,0),
 
-        setDot(i);
+        0
 
-        const seq = PROFILES[profiles[i]].sequence;
+    );
 
-        for (let t of seq) {
+let patternRemaining =
+    patternTotalTime;
+    const profileNames =
+        profileKeys.map(
+            key => PROFILES[key].name
+        );
+
+    for (let p = 0; p < profileKeys.length && running; p++) {
+
+        updateProfileBar(profileNames, p);
+
+        const sequence =
+            PROFILES[
+                profileKeys[p]
+            ].sequence;
+
+        const totalTime =
+            sequence.reduce(
+                (a, b) => a + b,
+                0
+            );
+
+        let elapsed = 0;
+
+        for (let i = 0; i < sequence.length && running; i += 2) {
+
+            const onTime = sequence[i];
+            const offTime = sequence[i + 1] || 0;
 
             circle.classList.add("on");
-            timerDisplay.textContent = t;
 
-            await sleep(t * 1000);
+            for (let t = 0; t < onTime && running; t++) {
+
+                timerDisplay.textContent =
+                    totalTime - elapsed;
+
+                elapsed++;
+patternRemaining--;
+
+patternTimerDisplay.textContent =
+    patternRemaining;
+                while (paused)
+                    await sleep(.1);
+
+                await sleep(1);
+
+            }
 
             circle.classList.remove("on");
+
+            for (let t = 0; t < offTime && running; t++) {
+
+                timerDisplay.textContent =
+                    totalTime - elapsed;
+
+                elapsed++;
+patternRemaining--;
+
+patternTimerDisplay.textContent =
+    patternRemaining;
+                while (paused)
+                    await sleep(.1);
+
+                await sleep(1);
+
+            }
+
         }
+
     }
 
     running = false;
+
+    homeScreen.style.display = "flex";
+    runScreen.style.display = "none";
+
 };
 
-});
+if ("serviceWorker" in navigator && !DEV_MODE) {
+
+    window.addEventListener("load", async () => {
+
+        try {
+
+            const reg = await navigator.serviceWorker.register(
+                "./service-worker.js"
+            );
+
+            console.log("SW registered:", reg);
+
+            // force check for updates immediately
+            reg.update();
+
+        } catch (err) {
+
+            console.log("SW failed:", err);
+
+        }
+
+    });
+
+} else {
+
+    console.log("DEV MODE: service worker disabled");
+}
