@@ -114,7 +114,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    margin-top: -40px;
 }
 
 #circle {
@@ -127,13 +127,14 @@ body {
     border-radius: 50%;
 
     transition: .5s ease;
-
+    
+    aspect-ratio: 1 / 1;
 }
 
 #circle.on {
 
-    width: 388px;
-    height: 388px;
+    width: 94%;
+    aspect-ratio: 1 / 1;
 
 }
 
