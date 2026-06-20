@@ -165,3 +165,11 @@ body {
     border-radius: 50%;
 
 }
+
+#patternTimerDisplay {
+
+    font-size: 4rem;
+
+    margin-bottom: 20px;
+
+}
