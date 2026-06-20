@@ -96,7 +96,6 @@ async function countdown(seconds) {
    MAIN RUN
 -------------------------- */
 startButton.onclick = async () => {
-alert("START works");
     if (running) return;
 
     running = true;
