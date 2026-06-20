@@ -143,15 +143,10 @@ let patternRemaining =
 
         updateProfileBar(profileNames, p);
 
-       const profile =
-    PROFILES[profileKeys[p]];
-
-const sequence = profile.sequence;
-
-circle.style.setProperty(
-    "--anim",
-    profile.animDuration + "s"
-);
+        const sequence =
+            PROFILES[
+                profileKeys[p]
+            ].sequence;
 
         const totalTime =
             sequence.reduce(
