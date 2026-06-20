@@ -102,8 +102,13 @@ startButton.onclick = async () => {
 
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
+const key = patternSelect.value;
+const pattern = PATTERNS[key];
 
-    const pattern = PATTERNS[patternSelect.value];
+if (!pattern) {
+    console.log("No pattern selected or invalid key:", key);
+    return;
+}
     const profileKeys = pattern.profiles;
 
     const profileNames = profileKeys.map(
