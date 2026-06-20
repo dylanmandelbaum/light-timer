@@ -73,17 +73,30 @@ function updateProfileBar(profileNames, currentIndex) {
 
     profileNames.forEach((name, i) => {
 
-        const span = document.createElement("span");
+        const container =
+            document.createElement("div");
 
-        span.textContent = name;
+        container.className = "profileItem";
+
+        const label =
+            document.createElement("div");
+
+        label.textContent = name;
+
+        const dot =
+            document.createElement("div");
+
+        dot.className = "profileDot";
+
+        dot.textContent = "•";
 
         if (i === currentIndex)
-            span.classList.add("activeProfile");
+            dot.classList.add("active");
 
-        profileBar.appendChild(span);
+        container.appendChild(label);
+        container.appendChild(dot);
 
-        if (i < profileNames.length - 1)
-            profileBar.append("   ");
+        profileBar.appendChild(container);
 
     });
 
