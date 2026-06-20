@@ -1,6 +1,6 @@
 const PROFILES = {
 
-    on off: {
+    on_off: {
 
         name: "on off",
 
