@@ -6,7 +6,7 @@ const PROFILES = {
     gentle_pulses:{name: "Gentle Pulses", sequence: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},
     gentle_squeeze:{name: "Gentle Pulses", sequence: [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]},
   //  quick_start:{name: "Gentle Pulses", sequence: [0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5,0.5,0.5,3.5,1.5]},
-    endurance_squeeze:{name: "Endurance Squeeze", sequence: [15,1,15,0]},
+    endurance_squeeze:{name: "Endurance Squeeze", sequence: [15,1,15,1]},
  //   front_hold:{name: "Front Hold", sequence: [1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5]},
     endurance_hold:{name: "Endurance Hold", sequence: [5,5,5,5,5,5,5,5,5,5]},
     core_beat:{name: "Core Beat", sequence: [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},
