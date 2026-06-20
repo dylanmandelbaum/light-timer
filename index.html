@@ -1,67 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>Light Timer</title>
+
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#000000">
 </head>
+
 <body>
 
-<div id="controls">
+<div id="homeScreen">
 
-    <select id="patternSelect">
-        <option value="">Select Pattern</option>
-    </select>
+    <h1>Light Timer</h1>
 
-    <input
-        id="patternName"
-        type="text"
-        placeholder="Pattern name">
+    <p>Choose a pattern</p>
 
-    <input
-        id="sequence"
-        type="text"
-        placeholder="5 3 5 3 5 10">
+    <select id="patternSelect"></select>
 
-    <input
-        id="repeatCount"
-        type="number"
-        value="-1"
-        placeholder="-1 = infinite">
-
-    <button id="saveButton">Save Pattern</button>
-    <button id="deleteButton">Delete Pattern</button>
-
-    <button id="startButton">Start</button>
-    <button id="stopButton">Stop</button>
+    <button id="startButton">
+        Start
+    </button>
 
 </div>
 
-<div id="display">
+
+<div id="runScreen">
+
+    <div id="profileBar"></div>
 
     <div id="timerDisplay">
         0
     </div>
 
     <div id="outerCircle">
-
         <div id="circle"></div>
 
-    </div>
+        <button id="stopButton">
+            ■
+        </button>
 
-    <div id="statusDisplay">
-
-        Cycle 0<br>
-        Step 0
+        <button id="pauseButton">
+            ❚❚
+        </button>
 
     </div>
 
 </div>
-    <button id="pauseButton">Pause</button>    
+
+
+<script src="profiles.js"></script>
+<script src="patterns.js"></script>
 <script src="app.js"></script>
 
 </body>
