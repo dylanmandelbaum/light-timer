@@ -1,44 +1,73 @@
 body {
+
     margin: 0;
     background: black;
     color: white;
     font-family: Arial, sans-serif;
 
-    display: flex;
-    flex-direction: column;
+}
+
+#homeScreen {
 
     height: 100vh;
-}
-
-#controls {
-    padding: 20px;
-}
-
-input,
-select,
-button {
-    width: 100%;
-    box-sizing: border-box;
-
-    padding: 12px;
-    margin-bottom: 10px;
-
-    font-size: 1rem;
-}
-
-#display {
-    flex: 1;
 
     display: flex;
     flex-direction: column;
 
     justify-content: center;
     align-items: center;
+
+    gap: 20px;
+
+}
+
+#homeScreen select {
+
+    width: 250px;
+    font-size: 1.2rem;
+    padding: 15px;
+
+}
+
+#startButton {
+
+    width: 250px;
+    padding: 20px;
+
+    font-size: 1.4rem;
+
+}
+
+#runScreen {
+
+    display: none;
+
+    height: 100vh;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+#profileBar {
+
+    margin-bottom: 40px;
+
+    font-size: 1.1rem;
+
+}
+
+.activeProfile {
+
+    text-decoration: underline;
+
 }
 
 #timerDisplay {
 
-    font-size: 4rem;
+    font-size: 6rem;
 
     margin-bottom: 40px;
 
@@ -55,6 +84,8 @@ button {
     border: 6px solid white;
     border-radius: 50%;
 
+    position: relative;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,6 +98,7 @@ button {
     height: 20px;
 
     background: white;
+
     border-radius: 50%;
 
     transition: .5s ease;
@@ -79,47 +111,31 @@ button {
     height: 388px;
 
 }
-body.running #display {
-
-    width: 100vw;
-
-}
-
-#statusDisplay {
-
-    margin-top: 30px;
-    text-align: center;
-
-}
-
-body.running #controls {
-
-    display: none;
-
-}
 
 #pauseButton {
 
-    display: none;
+    position: absolute;
 
-}
+    right: 10px;
+    bottom: 10px;
 
-body.running #pauseButton {
-
-    display: block;
-
-    position: fixed;
-
-    right: 25px;
-    bottom: 25px;
-
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 
     border-radius: 50%;
 
-    font-size: 1.2rem;
+}
 
-    z-index: 100;
+#stopButton {
+
+    position: absolute;
+
+    left: 10px;
+    bottom: 10px;
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
 
 }
