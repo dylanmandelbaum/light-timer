@@ -5,15 +5,15 @@ const PATTERNS = {
         name: "Monday",
 
         profiles: [
-            "on off",
+            "on_off",
             "rest",
-            "on off",
+            "on_off",
             "rest",
-            "on off",
+            "on_off",
             "rest"
-            "on off",
+            "on_off",
             "rest"
-            "on off",
+            "on_off",
             "rest",
         ]
 
