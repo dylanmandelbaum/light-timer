@@ -1,64 +1,193 @@
 body {
+
     margin: 0;
     background: black;
     color: white;
-    font-family: Arial;
-    text-align: center;
+    font-family: Arial, sans-serif;
+
 }
 
 #homeScreen {
+
     height: 100vh;
+
     display: flex;
     flex-direction: column;
+
     justify-content: center;
-    gap: 20px;
     align-items: center;
+
+    gap: 20px;
+
+}
+
+#homeScreen select {
+
+    width: 250px;
+    font-size: 1.2rem;
+    padding: 15px;
+
+}
+
+#startButton {
+
+    width: 250px;
+    padding: 20px;
+
+    font-size: 1.4rem;
+
 }
 
 #runScreen {
+
+    display: none;
+
     height: 100vh;
-    display: flex;
+
     flex-direction: column;
-    justify-content: center;
+
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+
 }
 
 #profileBar {
+
     display: flex;
-    gap: 8px;
+
+    gap: 30px;
+
+    margin-bottom: 40px;
+
+    font-size: 1.1rem;
+
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: gray;
+.profileItem {
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    min-width: 80px;
+
 }
 
-.dot.active {
-    background: white;
+.profileDot {
+
+    margin-top: 8px;
+
+    font-size: 1.5rem;
+
+    visibility: hidden;
+
+}
+
+.profileDot.active {
+
+    visibility: visible;
+
+}
+
+#timerDisplay {
+
+    font-size: 6rem;
+
+    margin-bottom: 40px;
+
+}
+
+#circleWrap {
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 #outerCircle {
-    width: 200px;
-    height: 200px;
-    border: 4px solid white;
+
+    width: 80vw;
+    height: 80vw;
+
+    max-width: 400px;
+    max-height: 400px;
+
+    border: 6px solid white;
     border-radius: 50%;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    box-sizing: border-box;
+
 }
 
 #circle {
+
     width: 20px;
     height: 20px;
+
     background: white;
     border-radius: 50%;
-    transition: 0.5s;
+    overflow: hidden;
+    border-radius: 50%;
+
+    transition: 1s ease;
+
 }
 
 #circle.on {
+
     width: 100%;
     height: 100%;
+
+}
+
+/* buttons now live OUTSIDE circle */
+
+#pauseButton,
+#stopButton {
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    margin-top: 15px;
+
+}
+
+#pauseButton {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+#stopButton {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+}
+
+#circle.on {
+
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+
+}
+
+
+
+#patternTimerDisplay {
+
+    font-size: 4rem;
+
+    margin-bottom: 20px;
+
 }
