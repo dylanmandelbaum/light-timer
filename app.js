@@ -1,7 +1,7 @@
 const patternTimerDisplay = document.getElementById("patternTimerDisplay");
 const homeScreen = document.getElementById("homeScreen");
 const runScreen = document.getElementById("runScreen");
-
+const profileDots = document.getElementById("profileDots");
 const patternSelect = document.getElementById("patternSelect");
 
 const startButton = document.getElementById("startButton");
@@ -102,7 +102,23 @@ function updateProfileBar(profileNames, currentIndex) {
     });
 
 }
+function renderDots(count) {
+    profileDots.innerHTML = "";
 
+    for (let i = 0; i < count; i++) {
+        const d = document.createElement("div");
+        d.className = "dot";
+        profileDots.appendChild(d);
+    }
+}
+
+function setDot(index) {
+    const dots = profileDots.children;
+
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle("active", i === index);
+    }
+}
 startButton.onclick = async () => {
 
     if (running)
@@ -120,6 +136,7 @@ if (!pattern) return;
 
     const profileKeys =
         pattern.profiles;
+    renderDots(profileKeys.length);
 const patternTotalTime =
     profileKeys.reduce(
 
@@ -143,7 +160,7 @@ let patternRemaining =
         );
 
     for (let p = 0; p < profileKeys.length && running; p++) {
-
+setDot(p);
         updateProfileBar(profileNames, p);
 
         const sequence =
