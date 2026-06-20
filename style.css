@@ -98,6 +98,16 @@ body {
 
 }
 
+#circleWrap {
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
 #outerCircle {
 
     width: 80vw;
@@ -109,13 +119,9 @@ body {
     border: 6px solid white;
     border-radius: 50%;
 
-    position: relative;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 60px;
 
     box-sizing: border-box;
 
@@ -127,12 +133,45 @@ body {
     height: 20px;
 
     background: white;
-
+    border-radius: 50%;
+    overflow: hidden;
     border-radius: 50%;
 
     transition: .5s ease;
-    
-    aspect-ratio: 1 / 1;
+
+}
+
+#circle.on {
+
+    width: 100%;
+    height: 100%;
+
+}
+
+/* buttons now live OUTSIDE circle */
+
+#pauseButton,
+#stopButton {
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    margin-top: 15px;
+
+}
+
+#pauseButton {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+#stopButton {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
 }
 
 #circle.on {
@@ -143,28 +182,7 @@ body {
 
 }
 
-#pauseButton,
-#stopButton {
 
-    position: absolute;
-
-    width: 55px;
-    height: 55px;
-
-    border-radius: 50%;
-
-    z-index: 10;
-
-}
-#pauseButton {
-    right: 18px;
-    bottom: 18px;
-}
-
-#stopButton {
-    left: 18px;
-    bottom: 18px;
-}
 
 #patternTimerDisplay {
 
