@@ -12,7 +12,7 @@ const PROFILES = {
 
         name: "Rest",
 
-        sequence: [3]
+        sequence: [0,3]
 
     },
 
