@@ -28,7 +28,7 @@ Object.entries(PATTERNS).forEach(([key, p]) => {
     opt.textContent = p.name;
     patternSelect.appendChild(opt);
 });
-
+patternSelect.value = Object.keys(PATTERNS)[0];
 // dots
 function renderDots(n) {
     profileBar.innerHTML = "";
@@ -64,8 +64,12 @@ startButton.onclick = async () => {
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
 
-    const pattern = PATTERNS[patternSelect.value];
-    const profiles = pattern.profiles;
+const patternKey = patternSelect.value;
+const pattern = PATTERNS[patternKey];
+
+if (!pattern) return;
+
+const profiles = pattern.profiles;
 
     renderDots(profiles.length);
 
