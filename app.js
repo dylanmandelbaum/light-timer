@@ -1,6 +1,3 @@
-const DEV_MODE =
-    new URLSearchParams(window.location.search)
-        .has("dev");
 
 const homeScreen = document.getElementById("homeScreen");
 const runScreen = document.getElementById("runScreen");
