@@ -114,7 +114,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -40px;
+
+    overflow: hidden;
+
 }
 
 #circle {
@@ -139,32 +141,27 @@ body {
 
 }
 
-#pauseButton {
-
-    position: absolute;
-
-    right: 10px;
-    bottom: 10px;
-
-    width: 70px;
-    height: 70px;
-
-    border-radius: 50%;
-
-}
-
+#pauseButton,
 #stopButton {
 
     position: absolute;
 
-    left: 10px;
-    bottom: 10px;
-
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 
     border-radius: 50%;
 
+    z-index: 10;
+
+}
+#pauseButton {
+    right: 10px;
+    bottom: 10px;
+}
+
+#stopButton {
+    left: 10px;
+    bottom: 10px;
 }
 
 #patternTimerDisplay {
