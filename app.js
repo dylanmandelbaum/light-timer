@@ -1,4 +1,4 @@
-
+window.addEventListener("DOMContentLoaded", () => {
 
 const profileDots = document.getElementById("profileBar");
 
@@ -211,3 +211,4 @@ if ("serviceWorker" in navigator) {
         }
     });
 }
+});
