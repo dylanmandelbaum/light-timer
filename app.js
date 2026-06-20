@@ -1,4 +1,4 @@
-
+const patternTimerDisplay = document.getElementById("patternTimerDisplay");
 const homeScreen = document.getElementById("homeScreen");
 const runScreen = document.getElementById("runScreen");
 
@@ -113,8 +113,10 @@ startButton.onclick = async () => {
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
 
-    const pattern =
-        PATTERNS[patternSelect.value];
+  const key = patternSelect.value;
+const pattern = PATTERNS[key];
+
+if (!pattern) return;
 
     const profileKeys =
         pattern.profiles;
@@ -211,19 +213,16 @@ patternTimerDisplay.textContent =
 
 };
 
-if ("serviceWorker" in navigator && !DEV_MODE) {
+if ("serviceWorker" in navigator) {
 
     window.addEventListener("load", async () => {
 
         try {
 
-            const reg = await navigator.serviceWorker.register(
-                "./service-worker.js"
-            );
+            const reg = await navigator.serviceWorker.register("./service-worker.js");
 
             console.log("SW registered:", reg);
 
-            // force check for updates immediately
             reg.update();
 
         } catch (err) {
@@ -234,7 +233,4 @@ if ("serviceWorker" in navigator && !DEV_MODE) {
 
     });
 
-} else {
-
-    console.log("DEV MODE: service worker disabled");
 }
