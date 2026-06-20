@@ -191,3 +191,36 @@ body {
     margin-bottom: 20px;
 
 }
+
+
+#profileDots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+    margin-bottom: 10px;
+
+    flex-wrap: wrap;
+    max-width: 90vw;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.25);
+
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+.dot.done {
+    background: white;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.5);
+}
