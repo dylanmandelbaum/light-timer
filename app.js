@@ -68,40 +68,7 @@ async function countdown(seconds) {
 
 }
 
-function updateProfileBar(profileNames, currentIndex) {
 
-    profileBar.innerHTML = "";
-
-    profileNames.forEach((name, i) => {
-
-        const container =
-            document.createElement("div");
-
-        container.className = "profileItem";
-
-        const label =
-            document.createElement("div");
-
-        label.textContent = name;
-
-        const dot =
-            document.createElement("div");
-
-        dot.className = "profileDot";
-
-        dot.textContent = "•";
-
-        if (i === currentIndex)
-            dot.classList.add("active");
-
-        container.appendChild(label);
-        container.appendChild(dot);
-
-        profileBar.appendChild(container);
-
-    });
-
-}
 function renderDots(count) {
     profileDots.innerHTML = "";
 
