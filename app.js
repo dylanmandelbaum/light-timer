@@ -128,7 +128,7 @@ let patternRemaining =
         );
 
     for (let p = 0; p < profileKeys.length && running; p++) {
-currentProfile.textContent = TEST PROFILE;
+currentProfile.textContent = PROFILES[profileKeys[p]].name;
         setDot(p);
 
         const sequence =
