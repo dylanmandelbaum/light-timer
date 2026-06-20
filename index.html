@@ -2,41 +2,57 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <title>Light Timer</title>
 
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#000000">
 </head>
 
 <body>
 
-<!-- HOME -->
 <div id="homeScreen">
-    <h1>Light Timer V8.4</h1>
+
+    <h1>Light Timer pre-dot</h1>
+
+    <p>Choose a pattern</p>
 
     <select id="patternSelect"></select>
 
-    <button id="startButton">Start</button>
+    <button id="startButton">
+        Start
+    </button>
+
 </div>
 
-<!-- RUN -->
-<div id="runScreen" style="display:none">
 
-    <div id="patternTimerDisplay">0</div>
-
+<div id="runScreen">
+<div id="patternTimerDisplay">
+    0
+</div>
     <div id="profileBar"></div>
 
-    <div id="timerDisplay">0</div>
+    <div id="timerDisplay">
+        0
+    </div>
+
+<div id="circleWrap">
 
     <div id="outerCircle">
         <div id="circle"></div>
     </div>
 
-    <button id="stopButton">Stop</button>
-    <button id="pauseButton">Pause</button>
+    <button id="stopButton">■</button>
+    <button id="pauseButton">❚❚</button>
 
 </div>
+
+</div>
+
 
 <script src="profiles.js"></script>
 <script src="patterns.js"></script>
