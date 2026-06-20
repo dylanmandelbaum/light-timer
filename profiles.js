@@ -10,6 +10,6 @@ const PROFILES = {
     front_hold:{name: "Front Hold", sequence: [1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5,1.5,0.5]},
     endurance_hold:{name: "Endurance Hold", sequence: [5,5,5,5,5,5,5,5,5,5]},
     core_beat:{name: "Core Beat", sequence: [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},
-    gradual_rise:{name: "Gradual Rise", sequence: [1,2,3,2,5,2,6,2,7,2,1,2,3,2,5,2,6,2,7]},
+    gradual_rise:{name: "Gradual Rise", sequence: [1,2,3,2,5,2,6,2,7,2,1,2,3,2,5,2,6,2,7]}
     
 };
