@@ -96,6 +96,7 @@ async function countdown(seconds) {
    MAIN RUN
 -------------------------- */
 startButton.onclick = async () => {
+  homeScreen.style.background = "red";
     if (running) return;
 
     running = true;
