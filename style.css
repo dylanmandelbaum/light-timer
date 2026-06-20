@@ -185,3 +185,22 @@ body {
     margin-bottom: 20px;
 
 }
+
+
+#profileDots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+}
+
+.dot.active {
+    background: white;
+}
