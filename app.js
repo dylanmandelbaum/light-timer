@@ -1,3 +1,4 @@
+const profileDots = document.getElementById("profileBar");
 
 const homeScreen = document.getElementById("homeScreen");
 const runScreen = document.getElementById("runScreen");
@@ -17,145 +18,126 @@ let running = false;
 let paused = false;
 
 function sleep(seconds) {
-
     return new Promise(resolve =>
         setTimeout(resolve, seconds * 1000));
-
 }
 
+/* -------------------------
+   BUILD PATTERN DROPDOWN
+-------------------------- */
 Object.entries(PATTERNS).forEach(([key, pattern]) => {
-
     const option = document.createElement("option");
-
     option.value = key;
     option.textContent = pattern.name;
-
     patternSelect.appendChild(option);
-
 });
 
+/* -------------------------
+   PAUSE / STOP
+-------------------------- */
 pauseButton.onclick = () => {
-
     paused = !paused;
-
-    pauseButton.textContent =
-        paused ? "▶" : "❚❚";
-
+    pauseButton.textContent = paused ? "▶" : "❚❚";
 };
 
 stopButton.onclick = () => {
-
     running = false;
     paused = false;
 
     homeScreen.style.display = "flex";
     runScreen.style.display = "none";
-
 };
 
-async function countdown(seconds) {
+/* -------------------------
+   DOT SYSTEM
+-------------------------- */
+function renderDots(count) {
+    profileDots.innerHTML = "";
 
+    for (let i = 0; i < count; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        profileDots.appendChild(dot);
+    }
+}
+
+function setActiveDot(index) {
+    const dots = profileDots.children;
+
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("done", "active");
+
+        if (i < index) {
+            dots[i].classList.add("done");
+        } else if (i === index) {
+            dots[i].classList.add("active");
+        }
+    }
+}
+
+/* -------------------------
+   TIMER
+-------------------------- */
+async function countdown(seconds) {
     for (let remaining = seconds; remaining > 0 && running; remaining--) {
 
         timerDisplay.textContent = remaining;
 
         while (paused)
-            await sleep(.1);
+            await sleep(0.1);
 
         await sleep(1);
-
     }
-
 }
 
-function updateProfileBar(profileNames, currentIndex) {
-
-    profileBar.innerHTML = "";
-
-    profileNames.forEach((name, i) => {
-
-        const container =
-            document.createElement("div");
-
-        container.className = "profileItem";
-
-        const label =
-            document.createElement("div");
-
-        label.textContent = name;
-
-        const dot =
-            document.createElement("div");
-
-        dot.className = "profileDot";
-
-        dot.textContent = "•";
-
-        if (i === currentIndex)
-            dot.classList.add("active");
-
-        container.appendChild(label);
-        container.appendChild(dot);
-
-        profileBar.appendChild(container);
-
-    });
-
-}
-
+/* -------------------------
+   MAIN RUN
+-------------------------- */
 startButton.onclick = async () => {
-
-    if (running)
-        return;
+    if (running) return;
 
     running = true;
 
     homeScreen.style.display = "none";
     runScreen.style.display = "flex";
 
-    const pattern =
-        PATTERNS[patternSelect.value];
+    const pattern = PATTERNS[patternSelect.value];
+    const profileKeys = pattern.profiles;
 
-    const profileKeys =
-        pattern.profiles;
-const patternTotalTime =
-    profileKeys.reduce(
-
-        (sum, key) =>
-
-            sum +
-
-            PROFILES[key]
-                .sequence
-                .reduce((a,b)=>a+b,0),
-
-        0
-
+    const profileNames = profileKeys.map(
+        key => PROFILES[key].name
     );
 
-let patternRemaining =
-    patternTotalTime;
-    const profileNames =
-        profileKeys.map(
-            key => PROFILES[key].name
-        );
+    /* -------------------------
+       INIT DOTS (STEP 6)
+    -------------------------- */
+    renderDots(profileKeys.length);
+    setActiveDot(0);
 
+    let patternRemaining = profileKeys.reduce(
+        (sum, key) =>
+            sum +
+            PROFILES[key].sequence.reduce((a, b) => a + b, 0),
+        0
+    );
+
+    /* -------------------------
+       PROFILE LOOP
+    -------------------------- */
     for (let p = 0; p < profileKeys.length && running; p++) {
 
         updateProfileBar(profileNames, p);
 
-        const sequence =
-            PROFILES[
-                profileKeys[p]
-            ].sequence;
+        /* DOT UPDATE (STEP 7) */
+        setActiveDot(p);
 
-        const totalTime =
-            sequence.reduce(
-                (a, b) => a + b,
-                0
-            );
+        const sequence =
+            PROFILES[profileKeys[p]].sequence;
 
         let elapsed = 0;
+
+        const totalTime =
+            sequence.reduce((a, b) => a + b, 0);
 
         for (let i = 0; i < sequence.length && running; i += 2) {
 
@@ -166,75 +148,58 @@ let patternRemaining =
 
             for (let t = 0; t < onTime && running; t++) {
 
-                timerDisplay.textContent =
-                    totalTime - elapsed;
+                timerDisplay.textContent = totalTime - elapsed;
 
                 elapsed++;
-patternRemaining--;
+                patternRemaining--;
 
-patternTimerDisplay.textContent =
-    patternRemaining;
                 while (paused)
-                    await sleep(.1);
+                    await sleep(0.1);
 
                 await sleep(1);
-
             }
 
             circle.classList.remove("on");
 
             for (let t = 0; t < offTime && running; t++) {
 
-                timerDisplay.textContent =
-                    totalTime - elapsed;
+                timerDisplay.textContent = totalTime - elapsed;
 
                 elapsed++;
-patternRemaining--;
+                patternRemaining--;
 
-patternTimerDisplay.textContent =
-    patternRemaining;
                 while (paused)
-                    await sleep(.1);
+                    await sleep(0.1);
 
                 await sleep(1);
-
             }
-
         }
-
     }
 
     running = false;
 
     homeScreen.style.display = "flex";
     runScreen.style.display = "none";
-
 };
 
-if ("serviceWorker" in navigator && !DEV_MODE) {
+/* -------------------------
+   SERVICE WORKER
+-------------------------- */
+if ("serviceWorker" in navigator) {
 
     window.addEventListener("load", async () => {
 
         try {
-
             const reg = await navigator.serviceWorker.register(
                 "./service-worker.js"
             );
 
             console.log("SW registered:", reg);
 
-            // force check for updates immediately
             reg.update();
 
         } catch (err) {
-
             console.log("SW failed:", err);
-
         }
-
     });
-
-} else {
-
-    console.log("DEV MODE: service worker disabled");
 }
