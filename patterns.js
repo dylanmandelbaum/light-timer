@@ -10,9 +10,9 @@ const PATTERNS = {
             "on_off",
             "rest",
             "on_off",
-            "rest"
+            "rest",
             "on_off",
-            "rest"
+            "rest",
             "on_off",
             "rest",
         ]
