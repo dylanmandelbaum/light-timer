@@ -15,6 +15,7 @@
 
 <body>
 
+<!-- HOME SCREEN -->
 <div id="homeScreen">
 
     <h1>Light Timer V4.4</h1>
@@ -23,36 +24,36 @@
 
     <select id="patternSelect"></select>
 
-    <button id="startButton">
-        Start
-    </button>
+    <button id="startButton">Start</button>
 
 </div>
 
 
+<!-- RUN SCREEN -->
 <div id="runScreen">
-<div id="patternTimerDisplay">
-    0
-</div>
+
+    <!-- TOTAL TIMER (pattern countdown) -->
+    <div id="patternTimerDisplay">0</div>
+
+    <!-- PROFILE DOTS (THIS IS YOUR NEW SYSTEM) -->
     <div id="profileBar"></div>
 
-    <div id="timerDisplay">
-        0
+    <!-- CURRENT STEP TIMER -->
+    <div id="timerDisplay">0</div>
+
+    <!-- CIRCLE AREA -->
+    <div id="circleWrap">
+
+        <div id="outerCircle">
+            <div id="circle"></div>
+        </div>
+
+        <button id="stopButton">■</button>
+        <button id="pauseButton">❚❚</button>
+
     </div>
 
-<div id="circleWrap">
-
-    <div id="outerCircle">
-        <div id="circle"></div>
-    </div>
-
-    <button id="stopButton">■</button>
-    <button id="pauseButton">❚❚</button>
-
 </div>
-
-</div>
-
 
 <script src="profiles.js"></script>
 <script src="patterns.js"></script>
