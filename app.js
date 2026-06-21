@@ -163,8 +163,16 @@ for (let t = 0; t < onTime * 10 && running; t++) {
     timerDisplay.textContent =
         Math.ceil(totalTime - elapsed);
 
-    patternTimerDisplay.textContent =
-        Math.ceil(patternRemaining);
+   const totalSeconds = Math.ceil(patternRemaining);
+
+const minutes =
+    Math.floor(totalSeconds / 60);
+
+const seconds =
+    totalSeconds % 60;
+
+patternTimerDisplay.textContent =
+    `${minutes}:${String(seconds).padStart(2, "0")}`;
 
     while (paused)
         await sleep(.1);
@@ -182,9 +190,16 @@ for (let t = 0; t < offTime * 10 && running; t++) {
 
     timerDisplay.textContent =
         Math.ceil(totalTime - elapsed);
+const totalSeconds = Math.ceil(patternRemaining);
 
-    patternTimerDisplay.textContent =
-        Math.ceil(patternRemaining);
+const minutes =
+    Math.floor(totalSeconds / 60);
+
+const seconds =
+    totalSeconds % 60;
+
+patternTimerDisplay.textContent =
+    `${minutes}:${String(seconds).padStart(2, "0")}`;
 
     while (paused)
         await sleep(.1);
