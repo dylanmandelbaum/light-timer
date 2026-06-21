@@ -158,41 +158,41 @@ currentProfile.textContent = PROFILES[profileKeys[p]].name;
 
             circle.classList.add("on");
 
-          if (running) {
+for (let t = 0; t < onTime * 10 && running; t++) {
 
     timerDisplay.textContent =
-        (totalTime - elapsed).toFixed(1);
+        Math.ceil(totalTime - elapsed);
+
+    patternTimerDisplay.textContent =
+        Math.ceil(patternRemaining);
 
     while (paused)
         await sleep(.1);
 
-    await sleep(onTime);
+    await sleep(.1);
 
-    elapsed += onTime;
-    patternRemaining -= onTime;
-
-    patternTimerDisplay.textContent =
-        patternRemaining.toFixed(1);
+    elapsed += .1;
+    patternRemaining -= .1;
 
 }
 
             circle.classList.remove("on");
 
-           if (running) {
+for (let t = 0; t < offTime * 10 && running; t++) {
 
     timerDisplay.textContent =
-        (totalTime - elapsed).toFixed(1);
+        Math.ceil(totalTime - elapsed);
+
+    patternTimerDisplay.textContent =
+        Math.ceil(patternRemaining);
 
     while (paused)
         await sleep(.1);
 
-    await sleep(offTime);
+    await sleep(.1);
 
-    elapsed += offTime;
-    patternRemaining -= offTime;
-
-    patternTimerDisplay.textContent =
-        patternRemaining.toFixed(1);
+    elapsed += .1;
+    patternRemaining -= .1;
 
 }
         }
