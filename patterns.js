@@ -25,6 +25,16 @@ const PATTERNS = {
         ]
 
     },
+Tuesday: {
+
+        name: "Tuesday",
+
+        profiles: [
+                "slow_steps",
+                "climb_pulse",
+        ]
+
+    },
 
 
 
