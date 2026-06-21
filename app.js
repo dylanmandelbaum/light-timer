@@ -154,46 +154,47 @@ currentProfile.textContent = PROFILES[profileKeys[p]].name;
         for (let i = 0; i < sequence.length && running; i += 2) {
 
             const onTime = sequence[i];
-            const offTime = sequence[i + 1] || 0;
+            const offTime = sequence[i + 1] ?? 0;
 
             circle.classList.add("on");
 
-            for (let t = 0; t < onTime && running; t++) {
+          if (running) {
 
-                timerDisplay.textContent =
-                    totalTime - elapsed;
+    timerDisplay.textContent =
+        (totalTime - elapsed).toFixed(1);
 
-                elapsed++;
-patternRemaining--;
+    while (paused)
+        await sleep(.1);
 
-patternTimerDisplay.textContent =
-    patternRemaining;
-                while (paused)
-                    await sleep(.1);
+    await sleep(onTime);
 
-                await sleep(1);
+    elapsed += onTime;
+    patternRemaining -= onTime;
 
-            }
+    patternTimerDisplay.textContent =
+        patternRemaining.toFixed(1);
+
+}
 
             circle.classList.remove("on");
 
-            for (let t = 0; t < offTime && running; t++) {
+           if (running) {
 
-                timerDisplay.textContent =
-                    totalTime - elapsed;
+    timerDisplay.textContent =
+        (totalTime - elapsed).toFixed(1);
 
-                elapsed++;
-patternRemaining--;
+    while (paused)
+        await sleep(.1);
 
-patternTimerDisplay.textContent =
-    patternRemaining;
-                while (paused)
-                    await sleep(.1);
+    await sleep(offTime);
 
-                await sleep(1);
+    elapsed += offTime;
+    patternRemaining -= offTime;
 
-            }
+    patternTimerDisplay.textContent =
+        patternRemaining.toFixed(1);
 
+}
         }
 
     }
